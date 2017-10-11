@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">GrooveRadar</string>
+    <string name="text_register">Register</string>
+    <string name="button_register">Register</string>
+    <string name="edit_confirm_password">Confirm Password</string>
+    <string name="edit_register_password">Password (at least 8 characters)</string>
+    <string name="edit_register_email">E-mail address</string>
+    <string name="text_login">Login</string>
+    <string name="edit_login_username">Username</string>
+    <string name="edit_login_password">Password</string>
+    <string name="button_login">Login</string>
+    <string name="text_register_here">No account yet? Register here!</string>
+    <string name="edit_register_username">Username (no more than 16 characters)</string>
+</resources>
