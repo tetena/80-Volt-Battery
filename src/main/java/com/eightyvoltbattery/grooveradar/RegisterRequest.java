@@ -1,5 +1,6 @@
 package com.eightyvoltbattery.grooveradar;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 
@@ -12,7 +13,7 @@ public class RegisterRequest extends StringRequest {
     private Map<String, String> params;
 
     public RegisterRequest(String email, String username, String password, Response.Listener<String> listener) {
-        super(Method.POST, REGISTER_REQUEST_URL, listener, null);
+        super(Request.Method.POST, REGISTER_REQUEST_URL, listener, null);
         params = new HashMap<>();
         params.put("email", email);
         params.put("username", username);
