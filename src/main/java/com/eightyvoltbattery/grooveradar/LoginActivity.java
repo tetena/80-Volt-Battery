@@ -16,7 +16,19 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Also the main activity of the application, this is the login screen.
+ * Here, the user has the option of entering a username and password to login, or to go to the register
+ * activity.
+ */
 public class LoginActivity extends AppCompatActivity {
+
+    /** Strings used in the program */
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_USERNAME = "username";
+    private static final String TAG_RETRY = "Retry";
+
+    private static final String ERROR_FAILED_LOGIN = "Login failed! Please make sure username/password info is correct.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +59,19 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
+                            boolean success = jsonResponse.getBoolean(TAG_SUCCESS);
 
                             if (success) {
-                                String username = jsonResponse.getString("username");
+                                String username = jsonResponse.getString(TAG_USERNAME);
 
                                 Intent intent = new Intent(LoginActivity.this, GameListActivity.class);
-                                intent.putExtra("username", username);
+                                intent.putExtra(TAG_USERNAME, username);
 
                                 LoginActivity.this.startActivity(intent);
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                builder.setMessage("Login failed! Please make sure username/password info is correct.")
-                                        .setNegativeButton("Retry", null)
+                                builder.setMessage(ERROR_FAILED_LOGIN)
+                                        .setNegativeButton(TAG_RETRY, null)
                                         .create()
                                         .show();
                             }
