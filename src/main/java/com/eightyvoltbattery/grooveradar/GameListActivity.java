@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import com.android.volley.RequestQueue;
@@ -24,7 +23,19 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * This is where the user can view the full list of arcade games and select one to find all
+ * arcades near him/her that have that game.
+ */
 public class GameListActivity extends AppCompatActivity {
+
+    /** Strings used in the program */
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_GAME_NAME = "game_name";
+    private static final String TAG_GAME_NAMES = "game_names";
+    private static final String TAG_RETRY = "Retry";
+
+    private static final String ERROR_GAME_LIST_FAILURE = "Error communicating with server, try again later.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,20 +52,23 @@ public class GameListActivity extends AppCompatActivity {
                 return formattedGame1.compareTo(formattedGame2);
             };
         });
+
         Response.Listener<String> responseListener = new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonResponse = new JSONObject(response);
-                    boolean success = jsonResponse.getBoolean("success");
+                    boolean success = jsonResponse.getBoolean(TAG_SUCCESS);
 
                     if(success) {
-                        JSONArray jsonGames = jsonResponse.getJSONArray("game_names");
+                        JSONArray jsonGames = jsonResponse.getJSONArray(TAG_GAME_NAMES);
+
                         for(int i = 0; i < jsonGames.length(); i ++) {
                             JSONObject jsonGame = jsonGames.getJSONObject(i);
-                            games.add(jsonGame.getString("game_name"));
+                            games.add(jsonGame.getString(TAG_GAME_NAME));
                         }
+
                         final List<String> gameList = new ArrayList<String>();
                         gameList.addAll(games);
                         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(GameListActivity.this, android.R.layout.simple_list_item_1, gameList);
@@ -69,8 +83,8 @@ public class GameListActivity extends AppCompatActivity {
                         });
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(GameListActivity.this);
-                        builder.setMessage("Error communicating with server, try again later.")
-                                .setNegativeButton("Retry", null)
+                        builder.setMessage(ERROR_GAME_LIST_FAILURE)
+                                .setNegativeButton(TAG_RETRY, null)
                                 .create()
                                 .show();
                     }
