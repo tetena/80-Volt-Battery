@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final TextView tvRegisterHere = (TextView) findViewById(R.id.tvRegisterHere);
         tvRegisterHere.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -49,12 +50,14 @@ public class LoginActivity extends AppCompatActivity {
         Button btLogin = (Button) findViewById(R.id.btLogin);
 
         btLogin.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 final String username = etLoginUsername.getText().toString();
                 final String password = etLoginPassword.getText().toString();
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
+
                     @Override
                     public void onResponse(String response) {
                         try {
@@ -65,8 +68,6 @@ public class LoginActivity extends AppCompatActivity {
                                 String username = jsonResponse.getString(TAG_USERNAME);
 
                                 Intent intent = new Intent(LoginActivity.this, GameListActivity.class);
-                                intent.putExtra(TAG_USERNAME, username);
-
                                 LoginActivity.this.startActivity(intent);
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
