@@ -58,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
         Button btRegister = (Button) findViewById(R.id.btRegister);
 
         btRegister.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 tvRegisterError.setText("");
@@ -82,6 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
                     final Set<String> existingUsernames = new HashSet<String>();
 
                     Response.Listener<String> responseListener = new Response.Listener<String>() {
+
                         @Override
                         public void onResponse(String response) {
                             try {
