@@ -36,6 +36,7 @@ public class GameListActivity extends AppCompatActivity {
     private static final String TAG_RETRY = "Retry";
 
     private static final String ERROR_GAME_LIST_FAILURE = "Error communicating with server, try again later.";
+    private static final String SELECTED_GAME_KEY = "SELECTED_GAME_KEY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,9 @@ public class GameListActivity extends AppCompatActivity {
 
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                String selectedGame = (String) parent.getItemAtPosition(position);
                                 Intent intent = new Intent(GameListActivity.this, ArcadeListActivity.class);
+                                intent.putExtra(SELECTED_GAME_KEY, selectedGame);
                                 GameListActivity.this.startActivity(intent);
                             }
                         });
