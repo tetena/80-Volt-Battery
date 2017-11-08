@@ -8,21 +8,21 @@
 
     <TextView
         android:id="@+id/waitText"
-        android:layout_width="344dp"
-        android:layout_height="45dp"
+        android:layout_width="347dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/text_wait"
         android:textSize="24sp"
-        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.523" />
 
     <ListView
         android:id="@+id/lvArcadeList"
-        android:layout_width="349dp"
+        android:layout_width="0dp"
         android:layout_height="421dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
