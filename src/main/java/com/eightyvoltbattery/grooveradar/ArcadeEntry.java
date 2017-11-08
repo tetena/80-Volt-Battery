@@ -5,8 +5,12 @@ package com.eightyvoltbattery.grooveradar;
  */
 public class ArcadeEntry {
 
+    private int id_;
     private String name_;
+    private String phoneNumber_;
     private String address_;
+    private String hours_;
+    private String info_;
     private double distanceFromUser_;
 
     /**
@@ -15,9 +19,13 @@ public class ArcadeEntry {
      * @param name The arcade's name.
      * @param address The arcade's address.
      */
-    public ArcadeEntry(String name, String address) {
+    public ArcadeEntry(int id, String name, String phoneNumber, String address, String hours, String info) {
+        id_ = id;
         name_ = name;
+        phoneNumber_ = phoneNumber;
         address_ = address;
+        hours_ = hours;
+        info_ = info;
     }
 
     /**
@@ -28,6 +36,10 @@ public class ArcadeEntry {
     void setDistanceFromUser(double distanceFromUser) {
         distanceFromUser_ = distanceFromUser;
     }
+
+    int getId() { return id_; }
+
+    String getPhoneNumber() { return phoneNumber_; }
 
     /**
      * Returns the name of this arcade.
@@ -46,6 +58,10 @@ public class ArcadeEntry {
     String getAddress() {
         return address_;
     }
+
+    String getHours() { return hours_; }
+
+    String getInfo() { return info_; }
 
     /**
      * Returns the distance from the user's location to this arcade, in miles.

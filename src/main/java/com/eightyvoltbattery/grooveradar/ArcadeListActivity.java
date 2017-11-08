@@ -6,8 +6,11 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -17,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -60,13 +64,14 @@ public class ArcadeListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arcade_list);
-
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         String locationProvider = LocationManager.NETWORK_PROVIDER;
-        Location location = locationManager.getLastKnownLocation(locationProvider);
+        //Location location = locationManager.getLastKnownLocation(locationProvider);
 
-        final double latitude = location.getLatitude();
-        final double longitude = location.getLongitude();
+        //final double latitude = location.getLatitude();
+        //final double longitude = location.getLongitude();
+        final double latitude = 42.73;
+        final double longitude = -73.6767;
 
         final ListView lvArcadeList = (ListView) findViewById(R.id.lvArcadeList);
         final List<ArcadeEntry> arcades = new ArrayList<ArcadeEntry>();
@@ -81,21 +86,32 @@ public class ArcadeListActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonResponse = new JSONObject(response);
                     boolean success = jsonResponse.getBoolean(TAG_SUCCESS);
-
                     if(success) {
+                        JSONArray jsonIds = jsonResponse.getJSONArray("arcade_id");
                         final JSONArray jsonArcades = jsonResponse.getJSONArray(TAG_ARCADE_NAME);
+                        JSONArray jsonPhoneNumbers = jsonResponse.getJSONArray("contact_number");
                         JSONArray jsonAddresses = jsonResponse.getJSONArray(TAG_ADDRESS);
+                        JSONArray jsonHours = jsonResponse.getJSONArray("open_time");
+                        JSONArray jsonInfos = jsonResponse.getJSONArray("information");
                         RequestQueue queue = Volley.newRequestQueue(ArcadeListActivity.this);
 
                         for(int i = 0; i < jsonArcades.length(); i ++) {
+                            JSONObject jsonId = jsonIds.getJSONObject(i);
                             JSONObject jsonArcade = jsonArcades.getJSONObject(i);
+                            JSONObject jsonPhoneNumber = jsonPhoneNumbers.getJSONObject(i);
                             JSONObject jsonAddress = jsonAddresses.getJSONObject(i);
+                            JSONObject jsonHour = jsonHours.getJSONObject(i);
+                            JSONObject jsonInfo = jsonInfos.getJSONObject(i);
 
                             String arcadeName = jsonArcade.getString(TAG_ARCADE_NAME);
 
                             if(!arcadeName.equals(TAG_CLOSED)) {
+                                int id = jsonId.getInt("arcade_id");
+                                String phoneNumber = jsonPhoneNumber.getString("contact_number");
                                 String address = jsonAddress.getString(TAG_ADDRESS);
-                                final ArcadeEntry entry = new ArcadeEntry(arcadeName, address);
+                                String hour = jsonHour.getString("open_time");
+                                String info = jsonInfo.getString("information");
+                                final ArcadeEntry entry = new ArcadeEntry(id, arcadeName, phoneNumber, address, hour, info);
 
                                 Response.Listener<String> googleMapsListener = new Response.Listener<String>() {
 
@@ -149,6 +165,26 @@ public class ArcadeListActivity extends AppCompatActivity {
                                             }
                                             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(ArcadeListActivity.this, android.R.layout.simple_list_item_1, arcadeList);
                                             lvArcadeList.setAdapter(arrayAdapter);
+                                            lvArcadeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                @Override
+                                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                    String selectedArcadeEntry = (String) parent.getItemAtPosition(position);
+                                                    String[] data = selectedArcadeEntry.split("\n", 0);
+                                                    String name = data[0];
+                                                    double distance = Double.parseDouble(data[1].replace(" miles", ""));
+                                                    for(int i = 0; i < arcades.size(); i ++) {
+                                                        if(arcades.get(i).getName().equals(name) && arcades.get(i).getDistanceFromUser() == distance) {
+                                                            Intent intent = new Intent(ArcadeListActivity.this, ArcadeInfoActivity.class);
+                                                            intent.putExtra("ARCADE_NAME", arcades.get(i).getName());
+                                                            intent.putExtra("ARCADE_PHONE_NUMBER", arcades.get(i).getPhoneNumber());
+                                                            intent.putExtra("ARCADE_ADDRESS", arcades.get(i).getAddress());
+                                                            intent.putExtra("ARCADE_HOURS", arcades.get(i).getHours());
+                                                            intent.putExtra("ARCADE_INFO", arcades.get(i).getInfo());
+                                                            ArcadeListActivity.this.startActivity(intent);
+                                                        }
+                                                    }
+                                                }
+                                            });
                                         }catch (JSONException e) {
                                             e.printStackTrace();
                                         }
