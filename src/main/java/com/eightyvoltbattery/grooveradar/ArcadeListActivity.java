@@ -175,17 +175,19 @@ public class ArcadeListActivity extends AppCompatActivity {
                                                     for(int i = 0; i < arcades.size(); i ++) {
                                                         if(arcades.get(i).getName().equals(name) && arcades.get(i).getDistanceFromUser() == distance) {
                                                             Intent intent = new Intent(ArcadeListActivity.this, ArcadeInfoActivity.class);
+                                                            intent.putExtra("ARCADE_ID", arcades.get(i).getId());
                                                             intent.putExtra("ARCADE_NAME", arcades.get(i).getName());
                                                             intent.putExtra("ARCADE_PHONE_NUMBER", arcades.get(i).getPhoneNumber());
                                                             intent.putExtra("ARCADE_ADDRESS", arcades.get(i).getAddress());
                                                             intent.putExtra("ARCADE_HOURS", arcades.get(i).getHours());
                                                             intent.putExtra("ARCADE_INFO", arcades.get(i).getInfo());
+                                                            intent.putExtra("username", getIntent().getStringExtra("username"));
                                                             ArcadeListActivity.this.startActivity(intent);
                                                         }
                                                     }
                                                 }
                                             });
-                                        }catch (JSONException e) {
+                                        } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
                                     }

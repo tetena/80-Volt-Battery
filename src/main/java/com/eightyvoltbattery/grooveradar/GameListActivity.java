@@ -81,6 +81,7 @@ public class GameListActivity extends AppCompatActivity {
                                 String selectedGame = (String) parent.getItemAtPosition(position);
                                 Intent intent = new Intent(GameListActivity.this, ArcadeListActivity.class);
                                 intent.putExtra(SELECTED_GAME_KEY, selectedGame);
+                                intent.putExtra("username", getIntent().getStringExtra("username"));
                                 GameListActivity.this.startActivity(intent);
                             }
                         });

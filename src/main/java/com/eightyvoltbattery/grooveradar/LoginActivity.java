@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                                 String username = jsonResponse.getString(TAG_USERNAME);
 
                                 Intent intent = new Intent(LoginActivity.this, GameListActivity.class);
+                                intent.putExtra("username", username);
                                 LoginActivity.this.startActivity(intent);
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);

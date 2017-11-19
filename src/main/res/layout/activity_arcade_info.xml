@@ -41,11 +41,11 @@
                 <TextView
                     android:id="@+id/avgRating"
                     android:layout_width="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp"
                     android:layout_height="32dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="0.55"
-                    android:text="TextView" />
+                    android:text="Be the first user to rate this arcade!" />
 
                 <TextView
                     android:id="@+id/comments"
