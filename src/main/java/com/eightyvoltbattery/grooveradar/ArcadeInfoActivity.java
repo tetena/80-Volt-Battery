@@ -120,9 +120,24 @@ public class ArcadeInfoActivity extends AppCompatActivity {
 
                         @Override
                         public void onResponse(String response) {
-                            GetRatingsRequest getRatingsRequest = new GetRatingsRequest(id, responseListener);
-                            RequestQueue queue = Volley.newRequestQueue(ArcadeInfoActivity.this);
-                            queue.add(getRatingsRequest);
+                            try {
+                                JSONObject jsonResponse = new JSONObject(response);
+                                boolean success = jsonResponse.getBoolean("success");
+
+                                if (success) {
+                                    GetRatingsRequest getRatingsRequest = new GetRatingsRequest(id, responseListener);
+                                    RequestQueue queue = Volley.newRequestQueue(ArcadeInfoActivity.this);
+                                    queue.add(getRatingsRequest);
+                                } else {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(ArcadeInfoActivity.this);
+                                    builder.setMessage("Error communicating with server, try again later.")
+                                            .setNegativeButton("Retry", null)
+                                            .create()
+                                            .show();
+                                }
+                            } catch(JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     };
                     AddRatingRequest addRatingRequest = new AddRatingRequest(id, currentUsername, rbRatingBar.getRating(), listener);
