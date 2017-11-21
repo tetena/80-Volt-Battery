@@ -1,5 +1,6 @@
 package com.eightyvoltbattery.grooveradar;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -56,7 +57,7 @@ public class ArcadeInfoActivity extends AppCompatActivity {
         final ArrayList<Boolean> alreadyRated = new ArrayList<Boolean>();
         alreadyRated.add(false);
 
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
+        final Response.Listener<String> responseListener = new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -91,22 +92,37 @@ public class ArcadeInfoActivity extends AppCompatActivity {
                             tvAvgRating.setText("Average rating of " + avgRating + " out of " + numRatings + " review(s).");
                         }
                     }
+                    else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ArcadeInfoActivity.this);
+                        builder.setMessage("Error communicating with server, try again later.")
+                                .setNegativeButton("Retry", null)
+                                .create()
+                                .show();
+                    }
                 } catch (JSONException e){
                     e.printStackTrace();
                 }
             }
         };
 
+        GetRatingsRequest getRatingsRequest = new GetRatingsRequest(id, responseListener);
+        RequestQueue queue = Volley.newRequestQueue(ArcadeInfoActivity.this);
+        queue.add(getRatingsRequest);
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 if(!alreadyRated.get(0)) {
+                    alreadyRated.clear();
+                    alreadyRated.add(true);
                     Response.Listener<String> listener = new Response.Listener<String>() {
 
                         @Override
                         public void onResponse(String response) {
-                            //WOLOLOLOLOLOLOLOLOLOLOLOLO
+                            GetRatingsRequest getRatingsRequest = new GetRatingsRequest(id, responseListener);
+                            RequestQueue queue = Volley.newRequestQueue(ArcadeInfoActivity.this);
+                            queue.add(getRatingsRequest);
                         }
                     };
                     AddRatingRequest addRatingRequest = new AddRatingRequest(id, currentUsername, rbRatingBar.getRating(), listener);
@@ -116,8 +132,15 @@ public class ArcadeInfoActivity extends AppCompatActivity {
             }
         });
 
-        GetRatingsRequest getRatingsRequest = new GetRatingsRequest(id, responseListener);
-        RequestQueue queue = Volley.newRequestQueue(ArcadeInfoActivity.this);
-        queue.add(getRatingsRequest);
+        tvCommentsLink.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ArcadeInfoActivity.this, CommentActivity.class);
+                intent.putExtra("ARCADE_ID", id);
+                intent.putExtra("username", currentUsername);
+                ArcadeInfoActivity.this.startActivity(intent);
+            }
+        });
     }
 }
