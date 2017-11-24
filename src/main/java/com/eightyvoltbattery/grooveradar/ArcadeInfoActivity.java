@@ -32,7 +32,7 @@ public class ArcadeInfoActivity extends AppCompatActivity {
         final String currentUsername = lastIntent.getStringExtra("username");
 
         final int id = lastIntent.getIntExtra("ARCADE_ID", 0);
-        String name = lastIntent.getStringExtra("ARCADE_NAME");
+        final String name = lastIntent.getStringExtra("ARCADE_NAME");
         String number = lastIntent.getStringExtra("ARCADE_PHONE_NUMBER").replace(',', ' ');
         String address = lastIntent.getStringExtra("ARCADE_ADDRESS");
         String hours = lastIntent.getStringExtra("ARCADE_HOURS").replace(',', '\n');
@@ -47,6 +47,7 @@ public class ArcadeInfoActivity extends AppCompatActivity {
         final TextView tvCommentsLink = (TextView) findViewById(R.id.comments);
         final Button btnSubmit = (Button) findViewById(R.id.button2);
         final RatingBar rbRatingBar = (RatingBar) findViewById(R.id.ratingBar);
+        final TextView seeGames = (TextView) findViewById(R.id.seeGames);
 
         tvName.setText(name);
         tvNumber.setText(number);
@@ -154,6 +155,17 @@ public class ArcadeInfoActivity extends AppCompatActivity {
                 Intent intent = new Intent(ArcadeInfoActivity.this, CommentActivity.class);
                 intent.putExtra("ARCADE_ID", id);
                 intent.putExtra("username", currentUsername);
+                ArcadeInfoActivity.this.startActivity(intent);
+            }
+        });
+
+        seeGames.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ArcadeInfoActivity.this, ArcadeGameListActivity.class);
+                intent.putExtra("ARCADE_ID", id);
+                intent.putExtra("ARCADE_NAME", name);
                 ArcadeInfoActivity.this.startActivity(intent);
             }
         });

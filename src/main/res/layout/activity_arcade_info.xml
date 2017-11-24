@@ -63,6 +63,12 @@
                 android:text="SUBMIT" />
 
             <TextView
+                android:id="@+id/seeGames"
+                android:layout_width="319dp"
+                android:layout_height="38dp"
+                android:text="Click here to see all games at this arcade!" />
+
+            <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

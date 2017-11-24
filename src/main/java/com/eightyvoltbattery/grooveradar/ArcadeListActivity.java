@@ -70,8 +70,8 @@ public class ArcadeListActivity extends AppCompatActivity {
 
         //final double latitude = location.getLatitude();
         //final double longitude = location.getLongitude();
-        final double latitude = 42.73;
-        final double longitude = -73.6767;
+        final double latitude = 40.7765;
+        final double longitude = -73.4673;
 
         final ListView lvArcadeList = (ListView) findViewById(R.id.lvArcadeList);
         final List<ArcadeEntry> arcades = new ArrayList<ArcadeEntry>();
