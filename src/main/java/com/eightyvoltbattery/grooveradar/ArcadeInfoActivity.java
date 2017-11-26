@@ -2,6 +2,7 @@ package com.eightyvoltbattery.grooveradar;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,9 +19,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.StringBufferInputStream;
 import java.util.ArrayList;
 
 public class ArcadeInfoActivity extends AppCompatActivity {
+    private static final String url1 = "https://www.google.com/maps/dir/?api=1&origin=";
+    private static final String url2 = "&destination=";
+    private static final String url3 = "&travelmode=driving";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +39,11 @@ public class ArcadeInfoActivity extends AppCompatActivity {
         final int id = lastIntent.getIntExtra("ARCADE_ID", 0);
         final String name = lastIntent.getStringExtra("ARCADE_NAME");
         String number = lastIntent.getStringExtra("ARCADE_PHONE_NUMBER").replace(',', ' ');
-        String address = lastIntent.getStringExtra("ARCADE_ADDRESS");
+        final String address = lastIntent.getStringExtra("ARCADE_ADDRESS");
         String hours = lastIntent.getStringExtra("ARCADE_HOURS").replace(',', '\n');
         String info = lastIntent.getStringExtra("ARCADE_INFO");
+        final String latitude = lastIntent.getStringExtra("USER_LOCATION_LATITUDE");
+        final String longitude = lastIntent.getStringExtra("USER_LOCATION_LONGITUDE");
 
         final TextView tvName = (TextView) findViewById(R.id.name);
         final TextView tvNumber = (TextView) findViewById(R.id.phoneNumber);
@@ -167,6 +174,21 @@ public class ArcadeInfoActivity extends AppCompatActivity {
                 intent.putExtra("ARCADE_ID", id);
                 intent.putExtra("ARCADE_NAME", name);
                 ArcadeInfoActivity.this.startActivity(intent);
+            }
+        });
+
+        tvAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String origin = latitude + "," + longitude;
+                String destination = address;
+                destination = destination.replace("\n", "");
+                destination = destination.replace(",", " ");
+                destination = destination.replace(" ", "+");
+                String url = url1 + origin + url2 + destination + url3;
+                Intent openGoogleMaps = new Intent(Intent.ACTION_VIEW);
+                openGoogleMaps.setData(Uri.parse(url));
+                startActivity(openGoogleMaps);
             }
         });
     }

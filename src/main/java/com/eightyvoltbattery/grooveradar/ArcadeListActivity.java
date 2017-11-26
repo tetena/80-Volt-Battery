@@ -182,6 +182,8 @@ public class ArcadeListActivity extends AppCompatActivity {
                                                             intent.putExtra("ARCADE_HOURS", arcades.get(i).getHours());
                                                             intent.putExtra("ARCADE_INFO", arcades.get(i).getInfo());
                                                             intent.putExtra("username", getIntent().getStringExtra("username"));
+                                                            intent.putExtra("USER_LOCATION_LATITUDE", Double.toString(latitude));
+                                                            intent.putExtra("USER_LOCATION_LONGITUDE", Double.toString(longitude));
                                                             ArcadeListActivity.this.startActivity(intent);
                                                         }
                                                     }
