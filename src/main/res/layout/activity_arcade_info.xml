@@ -45,28 +45,28 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="0.55"
-                    android:text="Be the first user to rate this arcade!" />
+                    android:text="@string/text_rate_first" />
 
                 <TextView
                     android:id="@+id/comments"
                     android:layout_width="wrap_content"
-                    android:layout_marginRight="20dp"
                     android:layout_height="wrap_content"
-                    android:text="Show Comments" />
+                    android:layout_marginRight="20dp"
+                    android:text="@string/text_show_comments" />
             </LinearLayout>
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btnSubmitRating"
                 android:layout_width="wrap_content"
                 android:layout_height="38dp"
                 android:layout_marginLeft="143dp"
-                android:text="SUBMIT" />
+                android:text="@string/button_submit" />
 
             <TextView
                 android:id="@+id/seeGames"
                 android:layout_width="319dp"
                 android:layout_height="38dp"
-                android:text="Click here to see all games at this arcade!" />
+                android:text="@string/text_see_all_games" />
 
             <TextView
                 android:id="@+id/name"
@@ -75,7 +75,6 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="12dp"
-                android:text="TEST"
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
                 android:visibility="visible"
@@ -92,7 +91,6 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="24dp"
-                android:text="TEST"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:visibility="visible"
@@ -109,7 +107,6 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="24dp"
-                android:text="TEST"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:visibility="visible"
@@ -126,7 +123,6 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="24dp"
-                android:text="TEST"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:visibility="visible"
@@ -143,7 +139,6 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="24dp"
-                android:text="TEST"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:visibility="visible"

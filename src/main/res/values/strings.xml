@@ -12,4 +12,8 @@
     <string name="text_register_here">No account yet? Register here!</string>
     <string name="edit_register_username">Username (no more than 16 characters)</string>
     <string name="text_wait">Please wait while results load...</string>
+    <string name="text_rate_first">Be the first user to rate this arcade!</string>
+    <string name="text_show_comments">Show Comments</string>
+    <string name="button_submit">SUBMIT</string>
+    <string name="text_see_all_games">Click here to see all games at this arcade!</string>
 </resources>

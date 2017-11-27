@@ -6,6 +6,10 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class interacts with Google Maps by listening to the response of the
+ * search URL constructed by the coordinates of the user and their selection.
+ */
 public class GoogleMapsRequest extends StringRequest {
 
     /** Parameters used for the Google Maps request (in this case, the search URL) */
