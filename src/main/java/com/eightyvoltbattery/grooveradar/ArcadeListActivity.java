@@ -50,11 +50,27 @@ public class ArcadeListActivity extends AppCompatActivity {
     private static final String TAG_DISTANCE = "distance";
     private static final String TAG_VALUE = "value";
     private static final String TAG_NO_RESULTS_FOUND = "No results found";
+    private static final String TAG_RETRY = "Retry";
+    private static final String TAG_ARCADE_ID = "arcade_id";
+    private static final String TAG_CONTACT_NUMBER = "contact_number";
+    private static final String TAG_OPEN_TIME = "open_time";
+    private static final String TAG_INFORMATION = "information";
+
+    private static final String KEY_USERNAME = "username";
+    private static final String KEY_ARCADE_ID = "ARCADE_ID";
+    private static final String KEY_ARCADE_NAME = "ARCADE_NAME";
+    private static final String KEY_ARCADE_PHONE_NUMBER = "ARCADE_PHONE_NUMBER";
+    private static final String KEY_ARCADE_ADDRESS = "ARCADE_ADDRESS";
+    private static final String KEY_ARCADE_HOURS = "ARCADE_HOURS";
+    private static final String KEY_ARCADE_INFO = "ARCADE_INFO";
+    private static final String KEY_LATITUDE = "USER_LOCATION_LATITUDE";
+    private static final String KEY_LONGITUDE = "USER_LOCATION_LONGITUDE";
+
+    private static final String ERROR_ARCADE_LIST_FAILURE = "Error communicating with server, try again later.";
+
     private static final String url1 = "https://maps.googleapis.com/maps/api/directions/json?origin=";
     private static final String url2 = "&destination=";
     private static final String url3 = "&key=AIzaSyAITBrnJi-444ZWfK7yYeiszkJHOCH-tN8";
-    private static final String ERROR_ARCADE_LIST_FAILURE = "Error communicating with server, try again later.";
-    private static final String TAG_RETRY = "Retry";
 
     /** Other important values */
     private static final double numMetersInMile = 1609.34;
@@ -66,12 +82,14 @@ public class ArcadeListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_arcade_list);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         String locationProvider = LocationManager.NETWORK_PROVIDER;
-        //Location location = locationManager.getLastKnownLocation(locationProvider);
+        Location location = locationManager.getLastKnownLocation(locationProvider);
 
-        //final double latitude = location.getLatitude();
-        //final double longitude = location.getLongitude();
-        final double latitude = 40.7765;
-        final double longitude = -73.4673;
+        final double latitude = location.getLatitude();
+        final double longitude = location.getLongitude();
+
+        /** Hard-coded values for Rensselaer Student Union for testing on emulator */
+        //final double latitude = 42.73;
+        //final double longitude = -73.6767;
 
         final ListView lvArcadeList = (ListView) findViewById(R.id.lvArcadeList);
         final List<ArcadeEntry> arcades = new ArrayList<ArcadeEntry>();
@@ -87,12 +105,12 @@ public class ArcadeListActivity extends AppCompatActivity {
                     JSONObject jsonResponse = new JSONObject(response);
                     boolean success = jsonResponse.getBoolean(TAG_SUCCESS);
                     if(success) {
-                        JSONArray jsonIds = jsonResponse.getJSONArray("arcade_id");
+                        JSONArray jsonIds = jsonResponse.getJSONArray(TAG_ARCADE_ID);
                         final JSONArray jsonArcades = jsonResponse.getJSONArray(TAG_ARCADE_NAME);
-                        JSONArray jsonPhoneNumbers = jsonResponse.getJSONArray("contact_number");
+                        JSONArray jsonPhoneNumbers = jsonResponse.getJSONArray(TAG_CONTACT_NUMBER);
                         JSONArray jsonAddresses = jsonResponse.getJSONArray(TAG_ADDRESS);
-                        JSONArray jsonHours = jsonResponse.getJSONArray("open_time");
-                        JSONArray jsonInfos = jsonResponse.getJSONArray("information");
+                        JSONArray jsonHours = jsonResponse.getJSONArray(TAG_OPEN_TIME);
+                        JSONArray jsonInfos = jsonResponse.getJSONArray(TAG_INFORMATION);
                         RequestQueue queue = Volley.newRequestQueue(ArcadeListActivity.this);
 
                         for(int i = 0; i < jsonArcades.length(); i ++) {
@@ -106,11 +124,11 @@ public class ArcadeListActivity extends AppCompatActivity {
                             String arcadeName = jsonArcade.getString(TAG_ARCADE_NAME);
 
                             if(!arcadeName.equals(TAG_CLOSED)) {
-                                int id = jsonId.getInt("arcade_id");
-                                String phoneNumber = jsonPhoneNumber.getString("contact_number");
+                                int id = jsonId.getInt(TAG_ARCADE_ID);
+                                String phoneNumber = jsonPhoneNumber.getString(TAG_CONTACT_NUMBER);
                                 String address = jsonAddress.getString(TAG_ADDRESS);
-                                String hour = jsonHour.getString("open_time");
-                                String info = jsonInfo.getString("information");
+                                String hour = jsonHour.getString(TAG_OPEN_TIME);
+                                String info = jsonInfo.getString(TAG_INFORMATION);
                                 final ArcadeEntry entry = new ArcadeEntry(id, arcadeName, phoneNumber, address, hour, info);
 
                                 Response.Listener<String> googleMapsListener = new Response.Listener<String>() {
@@ -175,15 +193,15 @@ public class ArcadeListActivity extends AppCompatActivity {
                                                     for(int i = 0; i < arcades.size(); i ++) {
                                                         if(arcades.get(i).getName().equals(name) && arcades.get(i).getDistanceFromUser() == distance) {
                                                             Intent intent = new Intent(ArcadeListActivity.this, ArcadeInfoActivity.class);
-                                                            intent.putExtra("ARCADE_ID", arcades.get(i).getId());
-                                                            intent.putExtra("ARCADE_NAME", arcades.get(i).getName());
-                                                            intent.putExtra("ARCADE_PHONE_NUMBER", arcades.get(i).getPhoneNumber());
-                                                            intent.putExtra("ARCADE_ADDRESS", arcades.get(i).getAddress());
-                                                            intent.putExtra("ARCADE_HOURS", arcades.get(i).getHours());
-                                                            intent.putExtra("ARCADE_INFO", arcades.get(i).getInfo());
-                                                            intent.putExtra("username", getIntent().getStringExtra("username"));
-                                                            intent.putExtra("USER_LOCATION_LATITUDE", Double.toString(latitude));
-                                                            intent.putExtra("USER_LOCATION_LONGITUDE", Double.toString(longitude));
+                                                            intent.putExtra(KEY_ARCADE_ID, arcades.get(i).getId());
+                                                            intent.putExtra(KEY_ARCADE_NAME, arcades.get(i).getName());
+                                                            intent.putExtra(KEY_ARCADE_PHONE_NUMBER, arcades.get(i).getPhoneNumber());
+                                                            intent.putExtra(KEY_ARCADE_ADDRESS, arcades.get(i).getAddress());
+                                                            intent.putExtra(KEY_ARCADE_HOURS, arcades.get(i).getHours());
+                                                            intent.putExtra(KEY_ARCADE_INFO, arcades.get(i).getInfo());
+                                                            intent.putExtra(KEY_USERNAME, getIntent().getStringExtra(KEY_USERNAME));
+                                                            intent.putExtra(KEY_LATITUDE, Double.toString(latitude));
+                                                            intent.putExtra(KEY_LONGITUDE, Double.toString(longitude));
                                                             ArcadeListActivity.this.startActivity(intent);
                                                         }
                                                     }

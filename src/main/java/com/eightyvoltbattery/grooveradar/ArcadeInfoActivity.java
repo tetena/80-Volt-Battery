@@ -3,11 +3,10 @@ package com.eightyvoltbattery.grooveradar;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -19,10 +18,37 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.StringBufferInputStream;
 import java.util.ArrayList;
 
+/**
+ * This is where the user can view different information about the selected arcade, such as its phone number,
+ * hours of operation, address, and a short summary about the selected arcade.
+ *
+ * There is also a rating bar, as well a view that displays the current average rating from users of the app.
+ *
+ * From this activity, the user can leave a rating, view comments by selecting the comments link, or tap on the
+ * address of the arcade to get Google Maps directions to the selected arcade.
+ */
 public class ArcadeInfoActivity extends AppCompatActivity {
+
+    /** Strings used in the program */
+    private static final String KEY_USERNAME = "username";
+    private static final String KEY_ARCADE_ID = "ARCADE_ID";
+    private static final String KEY_ARCADE_NAME = "ARCADE_NAME";
+    private static final String KEY_ARCADE_PHONE_NUMBER = "ARCADE_PHONE_NUMBER";
+    private static final String KEY_ARCADE_ADDRESS = "ARCADE_ADDRESS";
+    private static final String KEY_ARCADE_HOURS = "ARCADE_HOURS";
+    private static final String KEY_ARCADE_INFO = "ARCADE_INFO";
+    private static final String KEY_LATITUDE = "USER_LOCATION_LATITUDE";
+    private static final String KEY_LONGITUDE = "USER_LOCATION_LONGITUDE";
+
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_USERNAME = "username";
+    private static final String TAG_RATING = "rating";
+    private static final String TAG_RETRY = "Retry";
+
+    private static final String ERROR_SERVER = "Error communicating with server, try again later.";
+
     private static final String url1 = "https://www.google.com/maps/dir/?api=1&origin=";
     private static final String url2 = "&destination=";
     private static final String url3 = "&travelmode=driving";
@@ -34,16 +60,16 @@ public class ArcadeInfoActivity extends AppCompatActivity {
 
         Intent lastIntent = getIntent();
 
-        final String currentUsername = lastIntent.getStringExtra("username");
+        final String currentUsername = lastIntent.getStringExtra(KEY_USERNAME);
 
-        final int id = lastIntent.getIntExtra("ARCADE_ID", 0);
-        final String name = lastIntent.getStringExtra("ARCADE_NAME");
-        String number = lastIntent.getStringExtra("ARCADE_PHONE_NUMBER").replace(',', ' ');
-        final String address = lastIntent.getStringExtra("ARCADE_ADDRESS");
-        String hours = lastIntent.getStringExtra("ARCADE_HOURS").replace(',', '\n');
-        String info = lastIntent.getStringExtra("ARCADE_INFO");
-        final String latitude = lastIntent.getStringExtra("USER_LOCATION_LATITUDE");
-        final String longitude = lastIntent.getStringExtra("USER_LOCATION_LONGITUDE");
+        final int id = lastIntent.getIntExtra(KEY_ARCADE_ID, 0);
+        final String name = lastIntent.getStringExtra(KEY_ARCADE_NAME);
+        String number = lastIntent.getStringExtra(KEY_ARCADE_PHONE_NUMBER).replace(',', ' ');
+        final String address = lastIntent.getStringExtra(KEY_ARCADE_ADDRESS);
+        String hours = lastIntent.getStringExtra(KEY_ARCADE_HOURS).replace(',', '\n');
+        String info = lastIntent.getStringExtra(KEY_ARCADE_INFO);
+        final String latitude = lastIntent.getStringExtra(KEY_LATITUDE);
+        final String longitude = lastIntent.getStringExtra(KEY_LONGITUDE);
 
         final TextView tvName = (TextView) findViewById(R.id.name);
         final TextView tvNumber = (TextView) findViewById(R.id.phoneNumber);
@@ -71,10 +97,10 @@ public class ArcadeInfoActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonResponse = new JSONObject(response);
-                    boolean success = jsonResponse.getBoolean("success");
+                    boolean success = jsonResponse.getBoolean(TAG_SUCCESS);
                     if(success) {
-                        JSONArray jsonUsernames = jsonResponse.getJSONArray("username");
-                        JSONArray jsonRatings = jsonResponse.getJSONArray("rating");
+                        JSONArray jsonUsernames = jsonResponse.getJSONArray(TAG_USERNAME);
+                        JSONArray jsonRatings = jsonResponse.getJSONArray(TAG_RATING);
 
                         int numRatings = jsonRatings.length();
                         double sum = 0;
@@ -83,8 +109,8 @@ public class ArcadeInfoActivity extends AppCompatActivity {
                             JSONObject jsonUsername = jsonUsernames.getJSONObject(i);
                             JSONObject jsonRating = jsonRatings.getJSONObject(i);
 
-                            String username = jsonUsername.getString("username");
-                            double rating = jsonRating.getDouble("rating");
+                            String username = jsonUsername.getString(TAG_USERNAME);
+                            double rating = jsonRating.getDouble(TAG_RATING);
 
                             sum += rating;
 
@@ -102,8 +128,8 @@ public class ArcadeInfoActivity extends AppCompatActivity {
                     }
                     else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(ArcadeInfoActivity.this);
-                        builder.setMessage("Error communicating with server, try again later.")
-                                .setNegativeButton("Retry", null)
+                        builder.setMessage(ERROR_SERVER)
+                                .setNegativeButton(TAG_RETRY, null)
                                 .create()
                                 .show();
                     }
@@ -138,8 +164,8 @@ public class ArcadeInfoActivity extends AppCompatActivity {
                                     queue.add(getRatingsRequest);
                                 } else {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(ArcadeInfoActivity.this);
-                                    builder.setMessage("Error communicating with server, try again later.")
-                                            .setNegativeButton("Retry", null)
+                                    builder.setMessage(ERROR_SERVER)
+                                            .setNegativeButton(TAG_RETRY, null)
                                             .create()
                                             .show();
                                 }
@@ -160,8 +186,8 @@ public class ArcadeInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ArcadeInfoActivity.this, CommentActivity.class);
-                intent.putExtra("ARCADE_ID", id);
-                intent.putExtra("username", currentUsername);
+                intent.putExtra(KEY_ARCADE_ID, id);
+                intent.putExtra(KEY_USERNAME, currentUsername);
                 ArcadeInfoActivity.this.startActivity(intent);
             }
         });
@@ -171,8 +197,8 @@ public class ArcadeInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ArcadeInfoActivity.this, ArcadeGameListActivity.class);
-                intent.putExtra("ARCADE_ID", id);
-                intent.putExtra("ARCADE_NAME", name);
+                intent.putExtra(KEY_ARCADE_ID, id);
+                intent.putExtra(KEY_ARCADE_NAME, name);
                 ArcadeInfoActivity.this.startActivity(intent);
             }
         });

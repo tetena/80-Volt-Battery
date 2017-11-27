@@ -35,6 +35,8 @@ public class GameListActivity extends AppCompatActivity {
     private static final String TAG_GAME_NAMES = "game_names";
     private static final String TAG_RETRY = "Retry";
 
+    private static final String KEY_USERNAME = "username";
+
     private static final String ERROR_GAME_LIST_FAILURE = "Error communicating with server, try again later.";
     private static final String SELECTED_GAME_KEY = "SELECTED_GAME_KEY";
 
@@ -81,7 +83,7 @@ public class GameListActivity extends AppCompatActivity {
                                 String selectedGame = (String) parent.getItemAtPosition(position);
                                 Intent intent = new Intent(GameListActivity.this, ArcadeListActivity.class);
                                 intent.putExtra(SELECTED_GAME_KEY, selectedGame);
-                                intent.putExtra("username", getIntent().getStringExtra("username"));
+                                intent.putExtra(KEY_USERNAME, getIntent().getStringExtra(KEY_USERNAME));
                                 GameListActivity.this.startActivity(intent);
                             }
                         });
