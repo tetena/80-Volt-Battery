@@ -1,9 +1,5 @@
 package com.eightyvoltbattery.grooveradar;
 
-/**
- * Created by Yi (Robin) Fan on 11/19/2017.
- */
-
 public class Comment {
     private int commentID_;
     private String comment_;
@@ -22,18 +18,29 @@ public class Comment {
     }
 
     /**
-     * Gets the id of this comment.
+     * Returns the id of this comment.
+     *
+     * @return The id of this comment.
      */
-    int getCommentId() { return commentID_; }
+    int getCommentId() {
+        return commentID_;
+    }
 
     /**
-     * Gets the content of this comment.
+     * Returns the content of this comment.
+     * @return The content of this comment.
      */
-    String getComment() { return comment_; }
+    String getComment() {
+        return comment_;
+    }
 
     /**
-     * Gets the user name of this comment
+     * Returns the username of the user who posted this comment.
+     *
+     * @return The username of the user who posted this comment.
      */
-    String getUserName() { return userName_; }
+    String getUserName() {
+        return userName_;
+    }
 
 }
