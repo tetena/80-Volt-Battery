@@ -19,60 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".RegisterActivity"
-            android:parentActivityName=".LoginActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LoginActivity" />
-        </activity>
-        <activity
-            android:name=".GameListActivity"
-            android:parentActivityName=".LoginActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LoginActivity" />
-        </activity>
-        <activity
-            android:name=".ArcadeListActivity"
-            android:parentActivityName=".GameListActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GameListActivity" />
-        </activity>
-        <activity
-            android:name=".ArcadeInfoActivity"
-            android:parentActivityName=".GameListActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GameListActivity" />
-        </activity>
-        <activity
-            android:name=".CommentActivity"
-            android:parentActivityName=".GameListActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GameListActivity" />
-        </activity>
-        <activity
-            android:name=".ArcadeGameListActivity"
-            android:parentActivityName=".GameListActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GameListActivity" />
-        </activity>
+        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".GameListActivity"></activity>
+        <activity android:name=".ArcadeListActivity"></activity>
+        <activity android:name=".ArcadeInfoActivity"></activity>
+        <activity android:name=".CommentActivity"></activity>
+        <activity android:name=".ArcadeGameListActivity"></activity>
     </application>
 
 </manifest>

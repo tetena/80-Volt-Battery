@@ -50,9 +50,9 @@ public class CommentActivity extends AppCompatActivity {
         final String currentUsername = lastIntent.getStringExtra(KEY_USERNAME);
         final int id = lastIntent.getIntExtra(KEY_ARCADE_ID, 0);
 
-        final EditText editText = (EditText) findViewById(R.id.editText);
-        final Button button = (Button) findViewById(R.id.button);
-        final ListView lv = (ListView) findViewById(R.id.lv);
+        final EditText etComment = (EditText) findViewById(R.id.etComment);
+        final Button btnSubmit = (Button) findViewById(R.id.btnSubmitComment);
+        final ListView lvComments = (ListView) findViewById(R.id.lvComments);
         final List<Comment> comments = new ArrayList<Comment>();
 
         final Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -99,7 +99,7 @@ public class CommentActivity extends AppCompatActivity {
                             commentsList.add(c.getComment() + "\nPosted by " + c.getUserName());
                         }
                         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(CommentActivity.this, android.R.layout.simple_list_item_1, commentsList);
-                        lv.setAdapter(arrayAdapter);
+                        lvComments.setAdapter(arrayAdapter);
                     }
                     else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(CommentActivity.this);
@@ -118,7 +118,7 @@ public class CommentActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(CommentActivity.this);
         queue.add(getCommentsRequest);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -146,7 +146,7 @@ public class CommentActivity extends AppCompatActivity {
                         }
                     }
                 };
-                AddCommentRequest addCommentRequest = new AddCommentRequest(id, currentUsername, editText.getText().toString(), listener);
+                AddCommentRequest addCommentRequest = new AddCommentRequest(id, currentUsername, etComment.getText().toString(), listener);
                 RequestQueue queue = Volley.newRequestQueue(CommentActivity.this);
                 queue.add(addCommentRequest);
             }

@@ -78,9 +78,9 @@ public class ArcadeInfoActivity extends AppCompatActivity {
         final TextView tvInfo = (TextView) findViewById(R.id.info);
         final TextView tvAvgRating = (TextView) findViewById(R.id.avgRating);
         final TextView tvCommentsLink = (TextView) findViewById(R.id.comments);
-        final Button btnSubmit = (Button) findViewById(R.id.button2);
+        final Button btnSubmit = (Button) findViewById(R.id.btnSubmitRating);
         final RatingBar rbRatingBar = (RatingBar) findViewById(R.id.ratingBar);
-        final TextView seeGames = (TextView) findViewById(R.id.seeGames);
+        final TextView tvSeeGames = (TextView) findViewById(R.id.seeGames);
 
         tvName.setText(name);
         tvNumber.setText(number);
@@ -192,7 +192,7 @@ public class ArcadeInfoActivity extends AppCompatActivity {
             }
         });
 
-        seeGames.setOnClickListener(new View.OnClickListener() {
+        tvSeeGames.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
