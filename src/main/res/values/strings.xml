@@ -16,4 +16,13 @@
     <string name="text_show_comments">Show Comments</string>
     <string name="button_submit">SUBMIT</string>
     <string name="text_see_all_games">Click here to see all games at this arcade!</string>
+    <string name="name">Arcade Name</string>
+    <string name="phone_number_label">Phone Number:</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="addresslabel">Address:</string>
+    <string name="address">Address</string>
+    <string name="hourlabel">Hours:</string>
+    <string name="hours">Hours</string>
+    <string name="infolabel">Arcade Info:</string>
+    <string name="info">Arcade Info</string>
 </resources>
