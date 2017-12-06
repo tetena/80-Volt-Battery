@@ -79,15 +79,15 @@ public class ArcadeListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arcade_list);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        String locationProvider = LocationManager.NETWORK_PROVIDER;
-        Location location = locationManager.getLastKnownLocation(locationProvider);
+        //String locationProvider = LocationManager.NETWORK_PROVIDER;
+        //Location location = locationManager.getLastKnownLocation(locationProvider);
 
-        final double latitude = location.getLatitude();
-        final double longitude = location.getLongitude();
+        //final double latitude = location.getLatitude();
+        //final double longitude = location.getLongitude();
 
         /** Hard-coded values for Rensselaer Student Union for testing on emulator */
-        //final double latitude = 42.7300;
-        //final double longitude = -73.6767;
+        final double latitude = 42.73;
+        final double longitude = -73.6767;
 
         final ListView lvArcadeList = (ListView) findViewById(R.id.lvArcadeList);
         final List<ArcadeEntry> arcades = new ArrayList<ArcadeEntry>();
@@ -185,24 +185,22 @@ public class ArcadeListActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                     String selectedArcadeEntry = (String) parent.getItemAtPosition(position);
-                                                    if(!selectedArcadeEntry.equals(TAG_NO_RESULTS_FOUND)) {
-                                                        String[] data = selectedArcadeEntry.split("\n", 0);
-                                                        String name = data[0];
-                                                        double distance = Double.parseDouble(data[1].replace(" miles", ""));
-                                                        for (int i = 0; i < arcades.size(); i++) {
-                                                            if (arcades.get(i).getName().equals(name) && arcades.get(i).getDistanceFromUser() == distance) {
-                                                                Intent intent = new Intent(ArcadeListActivity.this, ArcadeInfoActivity.class);
-                                                                intent.putExtra(KEY_ARCADE_ID, arcades.get(i).getId());
-                                                                intent.putExtra(KEY_ARCADE_NAME, arcades.get(i).getName());
-                                                                intent.putExtra(KEY_ARCADE_PHONE_NUMBER, arcades.get(i).getPhoneNumber());
-                                                                intent.putExtra(KEY_ARCADE_ADDRESS, arcades.get(i).getAddress());
-                                                                intent.putExtra(KEY_ARCADE_HOURS, arcades.get(i).getHours());
-                                                                intent.putExtra(KEY_ARCADE_INFO, arcades.get(i).getInfo());
-                                                                intent.putExtra(KEY_USERNAME, getIntent().getStringExtra(KEY_USERNAME));
-                                                                intent.putExtra(KEY_LATITUDE, Double.toString(latitude));
-                                                                intent.putExtra(KEY_LONGITUDE, Double.toString(longitude));
-                                                                ArcadeListActivity.this.startActivity(intent);
-                                                            }
+                                                    String[] data = selectedArcadeEntry.split("\n", 0);
+                                                    String name = data[0];
+                                                    double distance = Double.parseDouble(data[1].replace(" miles", ""));
+                                                    for(int i = 0; i < arcades.size(); i ++) {
+                                                        if(arcades.get(i).getName().equals(name) && arcades.get(i).getDistanceFromUser() == distance) {
+                                                            Intent intent = new Intent(ArcadeListActivity.this, ArcadeInfoActivity.class);
+                                                            intent.putExtra(KEY_ARCADE_ID, arcades.get(i).getId());
+                                                            intent.putExtra(KEY_ARCADE_NAME, arcades.get(i).getName());
+                                                            intent.putExtra(KEY_ARCADE_PHONE_NUMBER, arcades.get(i).getPhoneNumber());
+                                                            intent.putExtra(KEY_ARCADE_ADDRESS, arcades.get(i).getAddress());
+                                                            intent.putExtra(KEY_ARCADE_HOURS, arcades.get(i).getHours());
+                                                            intent.putExtra(KEY_ARCADE_INFO, arcades.get(i).getInfo());
+                                                            intent.putExtra(KEY_USERNAME, getIntent().getStringExtra(KEY_USERNAME));
+                                                            intent.putExtra(KEY_LATITUDE, Double.toString(latitude));
+                                                            intent.putExtra(KEY_LONGITUDE, Double.toString(longitude));
+                                                            ArcadeListActivity.this.startActivity(intent);
                                                         }
                                                     }
                                                 }
